@@ -1,728 +1,981 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-accent="emerald">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vansh Goel — DevOps Engineer</title>
-<meta name="description" content="Vansh Goel — DevOps Engineer & CS undergraduate. Linux, Docker, Jenkins, Terraform, CI/CD, GCP/AWS.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #0a0e13;
-    --panel: #10161d;
-    --panel-2: #141b23;
-    --border: #202a35;
-    --border-bright: #2c3947;
-    --text: #e7edf3;
-    --text-dim: #8b98a6;
-    --text-dimmer: #5c6773;
-    --accent: #34e2c4;
-    --accent-dim: #1e8c78;
-    --warn: #f5a623;
-    --danger: #ef5b5b;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
-  }
-  *{ box-sizing: border-box; margin:0; padding:0; }
-  html{ scroll-behavior: smooth; }
-  body{
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    overflow-x: hidden;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 64px 64px;
-    background-attachment: fixed;
-    background-position: -1px -1px;
-  }
-  body::before{
-    content:"";
-    position: fixed; inset:0;
-    background: radial-gradient(ellipse 900px 500px at 15% -5%, rgba(52,226,196,0.08), transparent 60%),
-                radial-gradient(ellipse 700px 500px at 100% 20%, rgba(245,166,35,0.05), transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  a{ color: inherit; text-decoration: none; }
-  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
-  .mono{ font-family: var(--font-mono); }
-  ::selection{ background: var(--accent); color: #06110e; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vansh Goel · DevOps &amp; Cloud Engineer</title>
+  <meta name="description" content="Vansh Goel: DevOps Engineer. Multi-cloud infrastructure across GCP and AWS, CI/CD pipelines, Docker, Terraform, Prometheus, Grafana, and resilient platforms.">
+  <meta name="theme-color" content="#0b0f14">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar{ width: 10px; }
-  ::-webkit-scrollbar-track{ background: var(--bg); }
-  ::-webkit-scrollbar-thumb{ background: var(--border-bright); border-radius: 6px; }
+  <!-- Google Fonts: Space Grotesk, DM Sans, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  /* NAV */
-  header{
-    position: fixed; top:0; left:0; right:0; z-index: 100;
-    backdrop-filter: blur(10px);
-    background: rgba(10,14,19,0.75);
-    border-bottom: 1px solid var(--border);
-  }
-  nav{ max-width: 1120px; margin:0 auto; padding: 16px 28px; display:flex; align-items:center; justify-content:space-between; }
-  .logo{ font-family: var(--font-mono); font-weight:600; font-size: 15px; letter-spacing: 0.5px; display:flex; align-items:center; gap:8px; }
-  .logo .dot{ width:8px; height:8px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: blink 2.4s ease-in-out infinite; }
-  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
-  .navlinks{ display:flex; gap: 28px; align-items:center; }
-  .navlinks a{ font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); transition: color .15s; position:relative; }
-  .navlinks a:hover{ color: var(--accent); }
-  .navlinks a::before{ content: attr(data-idx); color: var(--accent-dim); margin-right: 4px; }
-  .nav-cta{
-    font-family: var(--font-mono); font-size: 12px; padding: 8px 14px;
-    border: 1px solid var(--border-bright); border-radius: 4px; color: var(--text);
-    transition: all .15s;
-  }
-  .nav-cta:hover{ border-color: var(--accent); color: var(--accent); background: rgba(52,226,196,0.06); }
-  .navtoggle{ display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer; }
-
-  section{ position: relative; z-index:1; padding: 110px 0 40px; }
-
-  .eyebrow{
-    font-family: var(--font-mono); font-size: 12px; color: var(--accent);
-    letter-spacing: 1.5px; text-transform: uppercase; display:flex; align-items:center; gap:10px; margin-bottom: 14px;
-  }
-  .eyebrow::before{ content:""; width: 22px; height:1px; background: var(--accent-dim); }
-  h1,h2,h3{ font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
-
-  /* HERO */
-  .hero{ padding-top: 150px; display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: start; }
-  .hero h1{ font-size: clamp(38px, 5.5vw, 62px); line-height: 1.05; margin-bottom: 18px; }
-  .hero h1 .accent{ color: var(--accent); }
-  .hero-sub{ font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); margin-bottom: 26px; min-height: 24px; }
-  .hero-sub .cursor{ display:inline-block; width:8px; height:16px; background:var(--accent); margin-left:2px; vertical-align: middle; animation: blink 1s steps(2) infinite; }
-  .hero p.lede{ color: var(--text-dim); font-size: 16px; max-width: 520px; margin-bottom: 32px; }
-  .btnrow{ display:flex; gap: 14px; flex-wrap: wrap; }
-  .btn{
-    font-family: var(--font-mono); font-size: 13.5px; padding: 13px 22px; border-radius: 4px;
-    display:inline-flex; align-items:center; gap:8px; transition: all .15s; border:1px solid transparent; cursor:pointer;
-  }
-  .btn-primary{ background: var(--accent); color: #06120f; font-weight:600; }
-  .btn-primary:hover{ background: #4cf0d3; transform: translateY(-1px); }
-  .btn-ghost{ border-color: var(--border-bright); color: var(--text); }
-  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
-
-  /* STATUS PANEL */
-  .status-panel{
-    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
-    overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  }
-  .status-head{
-    display:flex; align-items:center; justify-content:space-between; padding: 12px 16px;
-    border-bottom: 1px solid var(--border); background: var(--panel-2);
-  }
-  .status-head .dots{ display:flex; gap:6px; }
-  .status-head .dots span{ width:9px; height:9px; border-radius:50%; }
-  .status-head .dots span:nth-child(1){ background:#4a4f57; }
-  .status-head .dots span:nth-child(2){ background:#4a4f57; }
-  .status-head .dots span:nth-child(3){ background:#4a4f57; }
-  .status-head .label{ font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dimmer); }
-  .status-live{ font-family: var(--font-mono); font-size: 11px; color: var(--accent); display:flex; align-items:center; gap:6px; }
-  .status-live .pulse{ width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow:0 0 6px var(--accent); animation: blink 1.6s ease-in-out infinite; }
-  .status-body{ padding: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .metric{
-    background: var(--bg); border:1px solid var(--border); border-radius: 6px; padding: 14px 14px;
-  }
-  .metric .m-label{ font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dimmer); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-  .metric .m-value{ font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--text); }
-  .metric .m-value .unit{ font-size: 13px; color: var(--text-dim); font-weight: 400; }
-  .metric.ok .m-value{ color: var(--accent); }
-  .status-services{ padding: 0 18px 18px; }
-  .svc-row{ display:flex; align-items:center; justify-content:space-between; padding: 9px 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 12.5px; }
-  .svc-row .svc-name{ color: var(--text-dim); }
-  .svc-status{ display:flex; align-items:center; gap:6px; color: var(--accent); }
-  .svc-status .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); }
-
-  /* SECTION HEADERS */
-  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 12px; }
-  .sec-head h2{ font-size: clamp(26px, 3.4vw, 36px); }
-  .sec-head .sec-count{ font-family: var(--font-mono); font-size: 12.5px; color: var(--text-dimmer); }
-
-  /* PROJECTS */
-  .projects{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  .card{
-    background: var(--panel); border:1px solid var(--border); border-radius: 10px; padding: 26px;
-    transition: border-color .2s, transform .2s;
-  }
-  .card:hover{ border-color: var(--border-bright); transform: translateY(-3px); }
-  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 16px; }
-  .card-idx{ font-family: var(--font-mono); font-size: 11px; color: var(--text-dimmer); }
-  .card-links{ display:flex; gap: 12px; }
-  .card-links a{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); border:1px solid var(--border); padding: 5px 10px; border-radius: 4px; transition: all .15s; }
-  .card-links a:hover{ color: var(--accent); border-color: var(--accent); }
-  .card h3{ font-size: 20px; margin-bottom: 10px; }
-  .card p{ color: var(--text-dim); font-size: 14.5px; margin-bottom: 18px; }
-  .tags{ display:flex; flex-wrap:wrap; gap: 8px; }
-  .tag{ font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: rgba(52,226,196,0.08); border:1px solid rgba(52,226,196,0.2); padding: 4px 9px; border-radius: 4px; }
-
-  /* PIPELINE / EXPERIENCE */
-  .pipeline{ position: relative; padding-left: 6px; }
-  .pipeline-head{ background: var(--panel); border:1px solid var(--border); border-radius: 10px 10px 0 0; padding: 20px 26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
-  .pipeline-head .role{ font-size: 19px; font-family: var(--font-display); font-weight: 600; }
-  .pipeline-head .org{ color: var(--accent); font-family: var(--font-mono); font-size: 13px; }
-  .pipeline-head .dates{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dimmer); }
-  .stages{ border: 1px solid var(--border); border-top:none; border-radius: 0 0 10px 10px; background: var(--panel); }
-  .stage{ display:grid; grid-template-columns: 160px 1fr; gap: 20px; padding: 20px 26px; border-top: 1px solid var(--border); }
-  .stage-tag{ display:flex; flex-direction:column; gap:6px; }
-  .stage-tag .badge{ font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: rgba(52,226,196,0.08); border:1px solid rgba(52,226,196,0.2); padding: 5px 9px; border-radius: 4px; width: fit-content; }
-  .stage-tag .stagenum{ font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dimmer); }
-  .stage p{ color: var(--text-dim); font-size: 14.5px; }
-
-  /* SKILLS */
-  .skills-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .skill-panel{ background: var(--panel); border:1px solid var(--border); border-radius: 10px; padding: 20px; }
-  .skill-panel .sp-title{ font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dimmer); margin-bottom: 14px; display:flex; align-items:center; justify-content:space-between; }
-  .skill-panel .sp-title .count{ color: var(--accent); }
-  .chip-row{ display:flex; flex-wrap: wrap; gap: 8px; }
-  .chip{ font-family: var(--font-mono); font-size: 12.5px; color: var(--text); background: var(--bg); border: 1px solid var(--border); padding: 6px 11px; border-radius: 5px; }
-
-  /* ABOUT */
-  .about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  .about-grid p{ color: var(--text-dim); font-size: 15.5px; margin-bottom: 16px; }
-  .edu-card{ background: var(--panel); border:1px solid var(--border); border-radius: 10px; padding: 22px; }
-  .edu-card .eu-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 8px; }
-  .edu-card h4{ font-family: var(--font-display); font-size: 17px; }
-  .edu-card .cgpa{ font-family: var(--font-mono); color: var(--accent); font-size: 13px; background: rgba(52,226,196,0.08); border:1px solid rgba(52,226,196,0.2); padding: 4px 9px; border-radius: 4px; }
-  .edu-card .deg{ color: var(--text-dim); font-size: 14px; margin-bottom: 4px; }
-  .edu-card .dt{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dimmer); }
-
-  /* CREDENTIALS */
-  .cred-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .cred-card{ background: var(--panel); border:1px solid var(--border); border-radius: 10px; padding: 20px; display:flex; gap: 14px; }
-  .cred-card .cred-icon{ font-family: var(--font-mono); font-size: 11px; color: var(--bg); background: var(--accent); width: 30px; height: 30px; min-width:30px; border-radius: 6px; display:flex; align-items:center; justify-content:center; font-weight:700; }
-  .cred-card h4{ font-size: 15px; margin-bottom: 4px; }
-  .cred-card .cred-org{ font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dimmer); margin-bottom: 6px; }
-  .cred-card p{ color: var(--text-dim); font-size: 13px; }
-
-  /* AI ASSISTANT / TERMINAL */
-  .terminal-wrap{ background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
-  .terminal-bar{ display:flex; align-items:center; justify-content:space-between; padding: 12px 16px; background: var(--panel-2); border-bottom: 1px solid var(--border); }
-  .terminal-bar .dots{ display:flex; gap:6px; }
-  .terminal-bar .dots span{ width:10px; height:10px; border-radius:50%; }
-  .terminal-bar .dots span:nth-child(1){ background:#ef5b5b; }
-  .terminal-bar .dots span:nth-child(2){ background:#f5a623; }
-  .terminal-bar .dots span:nth-child(3){ background:#34e2c4; }
-  .terminal-bar .path{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dimmer); }
-  #chatlog{ height: 340px; overflow-y: auto; padding: 20px 22px; font-family: var(--font-mono); font-size: 13.5px; }
-  #chatlog .line{ margin-bottom: 14px; line-height: 1.65; }
-  #chatlog .line.sys{ color: var(--text-dimmer); }
-  #chatlog .line.user::before{ content: "visitor@visitor $ "; color: var(--warn); }
-  #chatlog .line.user{ color: var(--text); }
-  #chatlog .line.bot{ color: var(--text); white-space: pre-wrap; }
-  #chatlog .line.bot .prompt{ color: var(--accent); }
-  #chatlog .line.bot::before{ content: "vansh-goel $ "; color: var(--accent); }
-  #chatlog .line.err{ color: var(--danger); }
-  .typing{ display:inline-flex; gap:4px; }
-  .typing span{ width:5px; height:5px; border-radius:50%; background: var(--accent); animation: tb 1.2s infinite; }
-  .typing span:nth-child(2){ animation-delay:.2s; }
-  .typing span:nth-child(3){ animation-delay:.4s; }
-  @keyframes tb{ 0%,80%,100%{ opacity:.2; } 40%{ opacity:1; } }
-  .terminal-input-row{ display:flex; align-items:center; gap:10px; padding: 14px 22px; border-top: 1px solid var(--border); background: var(--panel-2); }
-  .terminal-input-row .prefix{ font-family: var(--font-mono); font-size: 13px; color: var(--warn); white-space:nowrap; }
-  #chatinput{
-    flex:1; background: transparent; border:none; outline:none; color: var(--text);
-    font-family: var(--font-mono); font-size: 13.5px;
-  }
-  #chatinput::placeholder{ color: var(--text-dimmer); }
-  .send-btn{ font-family: var(--font-mono); font-size: 12px; color: var(--accent); background: rgba(52,226,196,0.08); border:1px solid rgba(52,226,196,0.25); padding: 7px 13px; border-radius: 5px; cursor:pointer; }
-  .send-btn:hover{ background: rgba(52,226,196,0.18); }
-  .suggest-row{ display:flex; flex-wrap:wrap; gap: 8px; padding: 0 22px 16px; }
-  .suggest-chip{ font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dim); border:1px solid var(--border); padding: 6px 10px; border-radius: 5px; cursor:pointer; transition: all .15s; }
-  .suggest-chip:hover{ color: var(--accent); border-color: var(--accent); }
-
-  /* CONTACT */
-  .contact-panel{ background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 46px; text-align:center; }
-  .contact-panel h2{ font-size: clamp(26px,4vw,40px); margin-bottom: 14px; }
-  .contact-panel p{ color: var(--text-dim); max-width: 480px; margin: 0 auto 30px; }
-  .contact-links{ display:flex; justify-content:center; gap: 14px; flex-wrap: wrap; }
-  .contact-links a{ font-family: var(--font-mono); font-size: 13.5px; border:1px solid var(--border-bright); padding: 12px 20px; border-radius: 6px; transition: all .15s; }
-  .contact-links a:hover{ color: var(--accent); border-color: var(--accent); background: rgba(52,226,196,0.06); }
-  .contact-form{ max-width: 520px; margin: 36px auto 0; text-align:left; display:flex; flex-direction:column; gap: 16px; }
-  .cf-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .cf-field{ display:flex; flex-direction:column; gap: 6px; }
-  .cf-field label{ font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dimmer); }
-  .cf-field input, .cf-field textarea{
-    background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px;
-    color: var(--text); font-family: var(--font-body); font-size: 14px; outline: none; resize: vertical;
-    transition: border-color .15s;
-  }
-  .cf-field input:focus, .cf-field textarea:focus{ border-color: var(--accent); }
-  .cf-hint{ text-align:center; font-size: 11px; color: var(--text-dimmer); }
-  @media (max-width: 560px){ .cf-row{ grid-template-columns: 1fr; } }
-
-  footer{ padding: 36px 0 50px; text-align:center; }
-  footer p{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dimmer); }
-
-  @media (max-width: 880px){
-    .navlinks{ display:none; }
-    .navtoggle{ display:block; }
-    .hero{ grid-template-columns: 1fr; }
-    .projects{ grid-template-columns: 1fr; }
-    .skills-grid{ grid-template-columns: 1fr; }
-    .about-grid{ grid-template-columns: 1fr; gap: 26px; }
-    .cred-grid{ grid-template-columns: 1fr; }
-    .stage{ grid-template-columns: 1fr; gap: 8px; }
-    .status-body{ grid-template-columns: 1fr 1fr; }
-  }
-</style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="logo"><span class="dot"></span>vansh<span style="color:var(--text-dimmer)">@</span>goel<span style="color:var(--text-dimmer)">:~$</span></div>
-    <div class="navlinks" id="navlinks">
-      <a href="#work" data-idx="01">work</a>
-      <a href="#experience" data-idx="02">experience</a>
-      <a href="#skills" data-idx="03">skills</a>
-      <a href="#about" data-idx="04">about</a>
-      <a href="#assistant" data-idx="05">ask-ai</a>
-      <a href="#contact" data-idx="06">contact</a>
-    </div>
-    <a class="nav-cta" href="#contact">Get in touch →</a>
-    <button class="navtoggle" id="navtoggle" aria-label="menu">☰</button>
-  </nav>
-</header>
+  <!-- ==========================================================================
+       Header & Navigation Bar
+       ========================================================================== -->
+  <header>
+    <div class="wrap header-inner">
+      <!-- Clearly Understandable "VG" Signature Monogram Logo -->
+      <a class="brand" href="#home" aria-label="Vansh Goel Home">
+        <div class="brand-signature" title="VG · Vansh Goel">
+          <!-- Elegant, unmistakable cursive VG monogram SVG -->
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- V stroke -->
+            <path d="M 18,28 Q 24,56 38,72 Q 44,52 52,24" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- G stroke flowing from V -->
+            <path d="M 78,32 Q 56,22 46,44 Q 38,62 52,74 Q 68,82 78,64 L 78,52 L 62,52" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Accent Dot -->
+            <circle cx="84" cy="24" r="5" fill="var(--accent)"/>
+          </svg>
+        </div>
+        <div class="brand-name">
+          <div class="brand-name-main">vansh<span class="accent">.goel</span></div>
+          <div class="brand-name-sub">devops engineer</div>
+        </div>
+      </a>
 
-<div class="wrap">
+      <!-- Navigation Links -->
+      <nav id="main-nav" aria-label="Main Navigation">
+        <a href="#toolkit"><span class="idx">01</span>Toolkit</a>
+        <a href="#philosophy"><span class="idx">02</span>Philosophy</a>
+        <a href="#experience"><span class="idx">03</span>Track Record</a>
+        <a href="#projects"><span class="idx">04</span>Work</a>
+        <a href="#credentials"><span class="idx">05</span>Credentials</a>
+        <a href="#assistant"><span class="idx">06</span>Ask AI</a>
+      </nav>
 
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <div>
-      <div class="eyebrow">devops engineer · b.tech cse, iiit naya raipur</div>
-      <h1>Vansh Goel builds infrastructure<br> that stays <span class="accent">up.</span></h1>
-      <div class="hero-sub mono" id="typedline">&nbsp;<span class="cursor"></span></div>
-      <p class="lede">I design CI/CD pipelines, manage Linux infrastructure on GCP &amp; AWS, and keep production systems observable — from Jenkins builds to Grafana dashboards.</p>
-      <div class="btnrow">
-        <a href="#work" class="btn btn-primary">View Projects</a>
-        <a href="#assistant" class="btn btn-ghost">💬 Ask my AI about me</a>
-        <a href="231000057_Vansh_Goel.pdf" class="btn btn-ghost" download>Download resume</a>
+      <!-- Action Items: Color Picker, Theme Toggle & Contact CTA -->
+      <div class="header-actions">
+        <!-- Interactive Accent Color Picker -->
+        <div class="palette-picker" title="Customize theme accent color">
+          <button class="color-dot-btn emerald active" data-color="emerald" aria-label="Emerald green theme"></button>
+          <button class="color-dot-btn cyan" data-color="cyan" aria-label="Cyan blue theme"></button>
+          <button class="color-dot-btn amber" data-color="amber" aria-label="Amber gold theme"></button>
+          <button class="color-dot-btn purple" data-color="purple" aria-label="Violet purple theme"></button>
+          <button class="color-dot-btn rose" data-color="rose" aria-label="Rose pink theme"></button>
+        </div>
+
+        <!-- Dark / Light Mode Switcher -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark and light theme" title="Toggle theme">
+          <span class="icon-sun" aria-hidden="true">☀️</span>
+          <span class="icon-moon" aria-hidden="true">🌙</span>
+        </button>
+
+        <a class="contact-nav" href="#contact">
+          Let’s talk <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          ☰
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="status-panel">
-      <div class="status-head">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="label mono"></div>
-        <div class="status-live"><span class="pulse"></span>LIVE</div>
-      </div>
-      <div class="status-body">
-        <div class="metric ok"><div class="m-label">CGPA</div><div class="m-value">8.35<span class="unit">/10</span></div></div>
-        <div class="metric ok"><div class="m-label">Internship</div><div class="m-value" style="font-size:16px;">Devnagri</div></div>
-        <div class="metric ok"><div class="m-label">Projects shipped</div><div class="m-value">2<span class="unit"> live</span></div></div>
-        <div class="metric ok"><div class="m-label">Reliability mindset</div><div class="m-value">99.9<span class="unit">%</span></div></div>
-      </div>
-      <div class="status-services">
-        <div class="svc-row"><span class="svc-name">linux-administration</span><span class="svc-status"><span class="dot"></span>healthy</span></div>
-        <div class="svc-row"><span class="svc-name">ci-cd-pipelines</span><span class="svc-status"><span class="dot"></span>healthy</span></div>
-        <div class="svc-row"><span class="svc-name">cloud-infra (gcp/aws)</span><span class="svc-status"><span class="dot"></span>healthy</span></div>
-        <div class="svc-row"><span class="svc-name">monitoring-stack</span><span class="svc-status"><span class="dot"></span>healthy</span></div>
-      </div>
-    </div>
-  </section>
+  <main>
+    <!-- ==========================================================================
+         Hero Section
+         ========================================================================== -->
+    <section class="hero wrap" id="home">
+      <!-- Left Column: Copy & Actions -->
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="status-dot"></span> ENGINEERING RELIABILITY · ENABLING SCALE
+        </div>
 
-  <!-- PROJECTS -->
-  <section id="work">
-    <div class="sec-head">
-      <h2>Selected work</h2>
-      <div class="sec-count mono">02 deployed</div>
-    </div>
-    <div class="projects">
-      <div class="card">
-        <div class="card-top">
-          <span class="card-idx mono">PROJECT / 01</span>
-          <div class="card-links">
-            <a href="https://github.com/vanshgoel123/AutoDevOps-Control" target="_blank" rel="noopener">repo ↗</a>
-            <a href="https://autodevops.vanshgoel.tech/" target="_blank" rel="noopener">demo ↗</a>
+        <h1>
+          Infrastructure<br>that never <span class="highlight">holds you back.</span>
+        </h1>
+
+        <!-- Typed Dynamic Subtitle -->
+        <div class="typed-wrapper">
+          <span class="mono" id="typed-text"></span><span class="cursor" aria-hidden="true"></span>
+        </div>
+
+        <p class="hero-intro">
+          Hi, I’m <strong>Vansh Goel</strong>. A DevOps Engineer and Computer Science undergraduate at IIIT Naya Raipur turning complex cloud infrastructure into resilient, automated, and observable production platforms.
+        </p>
+
+        <div class="availability">
+          <span class="status-dot"></span>
+          <span>Open to work</span>
+          <span class="avail-tag">DevOps and Cloud Engineering roles</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">
+            Explore my work <span aria-hidden="true">↗</span>
+          </a>
+          <a class="btn secondary" href="Vansh_Resume.pdf" download="Vansh_Goel_Resume.pdf">
+            <span aria-hidden="true">↓</span> Download resume
+          </a>
+          <a class="btn ai-btn" href="#assistant">
+            <span aria-hidden="true">💬</span> Ask my AI
+          </a>
+        </div>
+
+        <div class="social-links">
+          <a href="https://github.com/vanshgoel123" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/vansh-goel-0756ab27a/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="mailto:itsvansh247776@gmail.com">Email ↗</a>
+          <span class="location">Raipur, India <span style="color:var(--accent)">◦</span></span>
+        </div>
+      </div>
+
+      <!-- Right Column: Logical DevOps Pipeline Architecture -->
+      <div class="architecture-card" aria-label="DevOps Delivery and Cloud Architecture Pipeline">
+        <div class="diagram-header">
+          <span class="sys-title">
+            <i class="status-dot"></i> DEVOPS DELIVERY PIPELINE
+          </span>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button id="run-pipeline-btn" class="run-pipeline-btn" title="Simulate real-time DevOps deployment">▶ Simulate Run</button>
+            <div class="dots">
+              <span></span><span></span><span></span>
+            </div>
           </div>
         </div>
-        <h3>AutoDevOps Control</h3>
-        <p>A mini PaaS platform that deploys applications using repository metadata and user-provided AWS credentials. Async deployment workflows via Celery + Redis automate cloning, image builds, provisioning, and container deployment.</p>
-        <div class="tags">
-          <span class="tag">FastAPI</span><span class="tag">Docker</span><span class="tag">Celery</span><span class="tag">Redis</span><span class="tag">AWS</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-top">
-          <span class="card-idx mono">PROJECT / 02</span>
-          <div class="card-links">
-            <a href="https://github.com/vanshgoel123/cloud-ide-platform" target="_blank" rel="noopener">repo ↗</a>
-            <a href="https://cloudid.vanshgoel.tech/" target="_blank" rel="noopener">demo ↗</a>
+
+        <div class="diagram-body">
+          <!-- Step 1: Git Push -->
+          <div class="flow-step step-git">
+            <div>
+              <span style="color:var(--c-orange); margin-right:6px;">⌘</span>
+              <strong style="color:var(--text)">git push</strong>
+              <span style="color:var(--muted)">origin main</span>
+            </div>
+            <span style="color:var(--accent); font-weight:600;">✓ verified</span>
+          </div>
+
+          <div class="flow-arrow">↓</div>
+
+          <!-- Step 2: CI/CD Pipeline -->
+          <div class="flow-step step-cicd">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="color:var(--c-blue); font-size:16px;">⤨</span>
+              <div>
+                <strong style="color:var(--text)">CI/CD Automation</strong>
+                <div style="font-size:11px; color:var(--muted)">Jenkins &amp; GitHub Actions</div>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--accent); background:var(--accent-glow); padding:3px 8px; border-radius:12px;">BUILD → TEST → DEPLOY</span>
+          </div>
+
+          <div class="flow-arrow">↓</div>
+
+          <!-- Step 3: Infrastructure as Code -->
+          <div class="flow-step step-iac">
+            <div>
+              <span style="color:var(--c-purple); margin-right:6px;">▱</span>
+              <strong style="color:var(--text)">Infrastructure as Code</strong>
+            </div>
+            <span style="font-size:11px; color:var(--c-purple); background:rgba(168,85,247,0.12); padding:3px 8px; border-radius:4px;">TERRAFORM &amp; ANSIBLE</span>
+          </div>
+
+          <div class="flow-arrow">↓</div>
+
+          <!-- Step 4: Multi-Cloud Deployment -->
+          <div class="pipeline-clouds-row">
+            <div class="p-cloud-box">
+              <div class="p-cloud-left">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#4285F4"/>
+                </svg>
+                <span>Google Cloud</span>
+              </div>
+              <em class="status">Healthy</em>
+            </div>
+
+            <div class="p-cloud-box">
+              <div class="p-cloud-left">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M18.5 13.5c-.2-.6-.9-.9-2.3-.9-1.8 0-3.3.6-4.5 1.8-.4.4-.3.9.1 1.2.4.3.9.2 1.2-.1.9-.9 1.9-1.3 3.2-1.3.8 0 1.1.1 1.2.3.1.2 0 .5-.4.7l-2.4 1.4c-1.6.9-2.4 2-2.4 3.2 0 1.9 1.5 3.2 3.5 3.2 1.4 0 2.6-.6 3.4-1.7v1.2c0 .5.4.9.9.9s.9-.4.9-.9v-7.3c0-1.1-.9-1.8-2.4-1.8zm-1.8 7.9c-1.1 0-1.9-.7-1.9-1.7 0-.7.4-1.3 1.3-1.8l2.4-1.4v2.5c-.4 1.4-1.1 2.4-1.8 2.4z" fill="#FF9900"/>
+                  <path d="M2.5 17c5.5 3.2 13 3.5 19 0 .4-.3.5-.8.2-1.2-.3-.4-.8-.5-1.2-.2-5.4 3.1-12.1 2.8-17.2-.2-.4-.2-.9-.1-1.2.3-.3.4-.2.9.2 1.3z" fill="#FF9900"/>
+                </svg>
+                <span>AWS Cloud</span>
+              </div>
+              <em class="status">Healthy</em>
+            </div>
+          </div>
+
+          <div class="flow-arrow">↓</div>
+
+          <!-- Step 5: Containerization & Process Runtime -->
+          <div class="flow-step step-runtime">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--accent)">
+                <path d="M22.5 10.5H19V8h3.5v2.5zm-5 0H14V8h3.5v2.5zm-5 0H9V8h3.5v2.5zm-5 0H4V8h3.5v2.5zm10-4H14V4h3.5v2.5zm-5 0H9V4h3.5v2.5zm13 8.5c-.3 0-.6.1-.8.2-.5-.9-1.4-1.5-2.5-1.7-.5-1-1.5-1.8-2.7-2H1.5C.7 13.5 0 14.2 0 15c0 4.5 3.3 7.8 8.5 7.8 6.5 0 11.2-3.8 13.5-7.8h.5c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5z"/>
+              </svg>
+              <strong style="color:var(--text)">Docker &amp; PM2 Supervision</strong>
+            </div>
+            <span style="font-size:11px; color:var(--muted)">ISOLATE &amp; SCALE</span>
+          </div>
+
+          <div class="flow-arrow">↓</div>
+
+          <!-- Step 6: Observability & Reverse Proxy -->
+          <div class="pipeline-obs-strip">
+            <div class="p-obs-pill"><i></i> Prometheus</div>
+            <div class="p-obs-pill"><i></i> Grafana</div>
+            <div class="p-obs-pill"><i></i> Nginx Proxy</div>
           </div>
         </div>
-        <h3>Cloud IDE Platform</h3>
-        <p>Isolated, on-demand Docker-based VS Code workspaces that eliminate dependency conflicts between developers. FastAPI backend automates create/start/stop/delete with CPU/memory limits and safe soft-delete cleanup.</p>
-        <div class="tags">
-          <span class="tag">Docker</span><span class="tag">FastAPI</span><span class="tag">GitHub Actions</span><span class="tag">Docker Compose</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="sec-head">
-      <h2>Experience</h2>
-      <div class="sec-count mono">1 pipeline · running</div>
-    </div>
-    <div class="pipeline">
-      <div class="pipeline-head">
-        <div>
-          <div class="role">DevOps Intern</div>
-          <div class="org">Devnagri</div>
-        </div>
-        <div class="dates mono">April 2026 → July 2026</div>
-      </div>
-      <div class="stages">
-        <div class="stage">
-          <div class="stage-tag"><span class="stagenum mono">STAGE 01</span><span class="badge">deploy</span></div>
-          <p>Managed Linux-based production and development infrastructure on Google Cloud Platform — application deployments, server administration, troubleshooting, and production service recovery.</p>
-        </div>
-        <div class="stage">
-          <div class="stage-tag"><span class="stagenum mono">STAGE 02</span><span class="badge">automate</span></div>
-          <p>Designed and implemented CI/CD pipelines using Jenkins and Git for Next.js, Laravel, and Python applications, automating build, deployment, and release across environments.</p>
-        </div>
-        <div class="stage">
-          <div class="stage-tag"><span class="stagenum mono">STAGE 03</span><span class="badge">upgrade</span></div>
-          <p>Planned and executed production Ubuntu 20.04 → 24.04 LTS upgrades with VM snapshots, rollback strategies, dependency migration, and post-upgrade validation.</p>
-        </div>
-        <div class="stage">
-          <div class="stage-tag"><span class="stagenum mono">STAGE 04</span><span class="badge">secure</span></div>
-          <p>Configured and optimized Nginx and Traefik reverse proxies, SSL certificates, firewall rules, and GCP networking for secure multi-service deployments.</p>
-        </div>
-        <div class="stage">
-          <div class="stage-tag"><span class="stagenum mono">STAGE 05</span><span class="badge">observe</span></div>
-          <p>Implemented infrastructure monitoring with Prometheus, Grafana, Promtail, and Node Exporter; analyzed GCP resource utilization to improve reliability and cut cloud costs.</p>
+        <div class="diagram-footer">
+          <span class="status-text">
+            <i class="status-dot"></i> Production live
+          </span>
+          <span class="uptime-text">
+            reliability <strong>99.9%</strong>
+          </span>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="sec-head">
-      <h2>Stack &amp; tooling</h2>
-      <div class="sec-count mono">6 categories</div>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-panel">
-        <div class="sp-title">languages <span class="count">06</span></div>
-        <div class="chip-row"><span class="chip">C/C++</span><span class="chip">Python</span><span class="chip">Go</span><span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">Bash</span></div>
-      </div>
-      <div class="skill-panel">
-        <div class="sp-title">os &amp; tools <span class="count">05</span></div>
-        <div class="chip-row"><span class="chip">Linux</span><span class="chip">Git</span><span class="chip">Nginx</span><span class="chip">Traefik</span><span class="chip">PM2</span></div>
-      </div>
-      <div class="skill-panel">
-        <div class="sp-title">cloud <span class="count">02</span></div>
-        <div class="chip-row"><span class="chip">AWS (EC2, S3, IAM, VPC)</span><span class="chip">GCP (Compute Engine, IAM, VPC, Firewall Rules, Cloud Storage)</span></div>
-      </div>
-      <div class="skill-panel">
-        <div class="sp-title">containers <span class="count">02</span></div>
-        <div class="chip-row"><span class="chip">Docker</span><span class="chip">Docker Compose</span></div>
-      </div>
-      <div class="skill-panel">
-        <div class="sp-title">ci/cd &amp; iac <span class="count">04</span></div>
-        <div class="chip-row"><span class="chip">Jenkins</span><span class="chip">GitHub Actions</span><span class="chip">Terraform</span><span class="chip">Ansible</span></div>
-      </div>
-      <div class="skill-panel">
-        <div class="sp-title">observability <span class="count">04</span></div>
-        <div class="chip-row"><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Promtail</span><span class="chip">Node Exporter</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="sec-head"><h2>About</h2></div>
-    <div class="about-grid">
-      <div>
-        <p>I'm a Computer Science undergraduate at IIIT Naya Raipur with hands-on experience in Linux administration, cloud infrastructure, and deployment automation. Most of what I build sits at the boundary between code and the systems that run it — pipelines, containers, and the dashboards that tell you when something's about to break.</p>
-        <p>Outside of infra work, I've pitched startup ideas competitively — placing as second runner-up at the 23Ventures Entrepreneurship Challenge and finishing as a top-15 finalist at Shark Tank Chhattisgarh's Young Indian Hub. I like building things end-to-end: the product, the pitch, and the infrastructure underneath it.</p>
-      </div>
-      
-      <div class="edu-card">
-        <div class="eu-top">
-          <h4>IIIT Naya Raipur</h4>
-          <span class="cgpa mono">8.35 CGPA</span>
-        </div>
-        <div class="deg">Bachelor of Technology, Computer Science</div>
-        <div class="dt mono">Aug 2023 — June 2027</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CREDENTIALS -->
-  <section id="credentials">
-    <div class="sec-head">
-      <h2>Certifications &amp; achievements</h2>
-    </div>
-    <div class="cred-grid">
-      <div class="cred-card">
-        <div class="cred-icon">DV</div>
-        <div>
-          <h4>Decoding DevOps — Basics to Advanced Projects with AI</h4>
-          <div class="cred-org mono">Udemy</div>
-          <p>64-hour hands-on training covering CI/CD, Docker, Jenkins, and cloud automation.</p>
-        </div>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">GA</div>
-        <div>
-          <h4>GitHub Actions — The Complete Guide</h4>
-          <div class="cred-org mono">Udemy</div>
-          <p>Designing and automating CI/CD workflows with real-world pipeline implementations.</p>
-        </div>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">3V</div>
-        <div>
-          <h4>2nd Runner-up — 23Ventures Entrepreneurship Challenge 2025</h4>
-          <div class="cred-org mono">23Ventures</div>
-          <p>Ranked among 100+ teams for a scalable startup idea.</p>
-        </div>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">ST</div>
-        <div>
-          <h4>Top 15 Finalist — Shark Tank Chhattisgarh</h4>
-          <div class="cred-org mono">Young Indian Hub 2025</div>
-          <p>Selected for pitching an innovative project to investors and entrepreneurs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI ASSISTANT -->
-  <section id="assistant">
-    <div class="sec-head">
-      <h2>Ask my AI assistant</h2>
-      <div class="sec-count mono"></div>
-    </div>
-    <p style="color:var(--text-dim); max-width:600px; margin-bottom:22px;">Curious about my experience, projects, or whether I'd be a fit for your team? Ask the assistant below — it knows my résumé inside out. For anything it can't answer, it'll point you to my contact info directly.</p>
-
-    <div class="terminal-wrap">
-      <div class="terminal-bar">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="path">ssh vansh-goel@portfolio</div>
-        <div style="width:60px;"></div>
-      </div>
-      <div id="chatlog">
-        <div class="line sys">Connected to vansh-goel. Type a question about Vansh's experience, skills, or projects.</div>
-      </div>
-      <div class="suggest-row">
-        <div class="suggest-chip" data-q="What's Vansh's DevOps experience?">What's his DevOps experience?</div>
-        <div class="suggest-chip" data-q="What projects has Vansh built?">What has he built?</div>
-        <div class="suggest-chip" data-q="Is Vansh available for internships or full-time roles?">Is he available for hire?</div>
-        <div class="suggest-chip" data-q="How do I contact Vansh?">How do I contact him?</div>
-      </div>
-      <div class="terminal-input-row">
-        <span class="prefix">visitor@visitor $</span>
-        <input id="chatinput" type="text" placeholder="ask something about vansh…" autocomplete="off">
-        <button class="send-btn" id="sendbtn">send</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-panel">
-      <div class="eyebrow" style="justify-content:center;">let's connect</div>
-      <h2>Building infrastructure people can rely on.</h2>
-      <p>Open to DevOps and infrastructure roles, internships, and interesting collaborations. Reach out — I usually reply within a day.</p>
-      <div class="contact-links">
-        <a href="mailto:itsvansh247776@gmail.com">✉ Email</a>
-        <a href="https://www.linkedin.com/in/vansh-goel-0756ab27a/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="https://github.com/vanshgoel123" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
-
-      <form id="contactform" class="contact-form">
-        <div class="cf-row">
-          <div class="cf-field">
-            <label for="cf-name">Name</label>
-            <input id="cf-name" type="text" placeholder="Your name" required>
+    <!-- ==========================================================================
+         Metrics Bar
+         ========================================================================== -->
+    <div class="metrics-section wrap">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-num">
+            <span data-counter="30">30</span><span class="suffix">+</span>
           </div>
-          <div class="cf-field">
-            <label for="cf-email">Email</label>
-            <input id="cf-email" type="email" placeholder="you@example.com" required>
+          <div class="metric-label">Linux VMs and services managed on GCP</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-num">
+            <span data-counter="60">60</span><span class="suffix">%</span>
+          </div>
+          <div class="metric-label">Deployment time acceleration (10m down to 4m)</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-num">
+            <span data-counter="20">20</span><span class="suffix">+</span>
+          </div>
+          <div class="metric-label">Production service outages resolved</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-num">
+            <span data-counter="8.35">8.35</span><span class="suffix">/10</span>
+          </div>
+          <div class="metric-label">B.Tech CSE at IIIT Naya Raipur</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         01 / The Toolkit: Logically Positioned DevOps Categories
+         ========================================================================== -->
+    <section class="section wrap" id="toolkit">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">01 / THE TOOLKIT</div>
+          <h2>Multi-cloud. Full-stack DevOps.</h2>
+          <p class="subhead">
+            The right tools, accurately grouped and thoughtfully integrated. From initial commit to production observability.
+          </p>
+        </div>
+        <span class="sec-count mono">6 core stacks</span>
+      </div>
+
+      <div class="toolkit-grid">
+        <!-- 1. Cloud & Infrastructure -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">☁</div>
+          <h3>Cloud &amp; Infrastructure</h3>
+          <p>
+            Scalable multi-cloud environments across GCP and AWS, provisioned and administered with strict networking policies.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">GCP Compute Engine</span>
+            <span class="badge-tag highlight">GCP VPC &amp; Firewall Rules</span>
+            <span class="badge-tag">GCP Cloud Storage</span>
+            <span class="badge-tag highlight">AWS EC2 &amp; VPC</span>
+            <span class="badge-tag">AWS S3</span>
+            <span class="badge-tag">IAM Security Policies</span>
+            <span class="badge-tag">Linux System Administration</span>
+          </div>
+        </article>
+
+        <!-- 2. CI/CD & Infrastructure as Code -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">⚙️</div>
+          <h3>CI/CD &amp; Infrastructure as Code</h3>
+          <p>
+            Automated delivery pipelines and declarative configuration for reliable, repeatable, zero-downtime releases.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">Jenkins</span>
+            <span class="badge-tag highlight">GitHub Actions</span>
+            <span class="badge-tag highlight">Terraform</span>
+            <span class="badge-tag">Ansible</span>
+            <span class="badge-tag">Git / GitHub Workflows</span>
+            <span class="badge-tag">Automated Release Pipelines</span>
+          </div>
+        </article>
+
+        <!-- 3. Containers & Virtualization -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">📦</div>
+          <h3>Containers &amp; Virtualization</h3>
+          <p>
+            Standardized packaging, reproducible developer environments, and multi-container lifecycle management.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">Docker</span>
+            <span class="badge-tag highlight">Docker Compose</span>
+            <span class="badge-tag">Multi-Stage Dockerfiles</span>
+            <span class="badge-tag">Container Isolation</span>
+            <span class="badge-tag">Resource Limits</span>
+          </div>
+        </article>
+
+        <!-- 4. Monitoring & Observability -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">📊</div>
+          <h3>Monitoring &amp; Observability</h3>
+          <p>
+            Full-stack metrics, log aggregation, and real-time visualization dashboards to catch bottlenecks before they cause downtime.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">Prometheus</span>
+            <span class="badge-tag highlight">Grafana</span>
+            <span class="badge-tag">Promtail</span>
+            <span class="badge-tag">Node Exporter</span>
+            <span class="badge-tag">Log Analysis</span>
+            <span class="badge-tag">Resource Utilization Auditing</span>
+          </div>
+        </article>
+
+        <!-- 5. Web Servers & Process Management -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">🌐</div>
+          <h3>Web Servers &amp; Process Management</h3>
+          <p>
+            High-performance reverse proxies, SSL certificate lifecycle automation, and resilient application process supervision.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">Nginx Reverse Proxy</span>
+            <span class="badge-tag highlight">Traefik</span>
+            <span class="badge-tag highlight">PM2 Process Manager</span>
+            <span class="badge-tag">SSL / TLS Termination</span>
+            <span class="badge-tag">Process Supervision</span>
+          </div>
+        </article>
+
+        <!-- 6. Languages & Runtime -->
+        <article class="toolkit-card tilt-card">
+          <div class="card-icon-wrap">💻</div>
+          <h3>Languages &amp; Scripting</h3>
+          <p>
+            Systems programming and operational scripting to build backend automation, PaaS services, and infrastructure workflows.
+          </p>
+          <div class="badge-stream">
+            <span class="badge-tag highlight">Python</span>
+            <span class="badge-tag highlight">Go</span>
+            <span class="badge-tag highlight">Bash Scripting</span>
+            <span class="badge-tag">C / C++</span>
+            <span class="badge-tag">Java</span>
+            <span class="badge-tag">JavaScript</span>
+            <span class="badge-tag">FastAPI</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Clean Also In My Toolkit Bar (No double hyphens, no root cause analysis) -->
+      <div class="also-toolkit">
+        <span class="title">Additional Tooling</span>
+        <span class="chip">Celery</span>
+        <span class="chip">Redis</span>
+        <span class="chip">REST APIs</span>
+        <span class="chip">Linux Kernel Networking</span>
+        <span class="chip">VM Snapshots</span>
+        <span class="chip">Rollback Strategies</span>
+        <span class="chip">Byobu to PM2 Migration</span>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         02 / The Philosophy & Approach (About)
+         ========================================================================== -->
+    <section class="section wrap" id="philosophy">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">02 / THE PHILOSOPHY</div>
+          <h2>A builder’s mindset.<br>A reliability engineer’s discipline.</h2>
+        </div>
+        <span class="sec-count mono">IIIT Naya Raipur</span>
+      </div>
+
+      <div class="about-box">
+        <div class="about-left">
+          <p class="lead">
+            I bridge the gap between application developers and the infrastructure that hosts them. My focus is engineering pipelines that eliminate manual friction and designing systems that remain resilient under production load.
+          </p>
+          <p style="color:var(--muted); line-height:1.65; margin-bottom:16px;">
+            During my DevOps internship at Devnagri in Noida, I oversaw 30+ Google Cloud Platform virtual machines, reduced deployment cycles from 10 minutes down to 4 minutes with Jenkins, and migrated 20+ production services to standardized PM2 supervision.
+          </p>
+          <p style="color:var(--muted); line-height:1.65;">
+            Beyond operations, I enjoy architecting self-service platforms that give developers confidence to ship, such as AutoDevOps Control and Cloud IDE Platform.
+          </p>
+
+          <div class="story-box">
+            <div class="story-badge">💡 THE SPARK · WHY DEVOPS</div>
+            <p>
+              When I was building my backend project, I got stuck trying to deploy it to production and was unable to show it to real users outside my own laptop. That roadblock opened my eyes to the world of deployment automation and cloud infrastructure. I dove headfirst into Docker, CI/CD, and Linux administration, became obsessed with system reliability, and never looked back.
+            </p>
+          </div>
+
+          <div class="principles-pills">
+            <span class="principle-pill">↗ Automate the repeatable</span>
+            <span class="principle-pill">◇ Zero downtime releases</span>
+            <span class="principle-pill">⎈ Observability before incidents</span>
           </div>
         </div>
-        <div class="cf-field">
-          <label for="cf-message">Query</label>
-          <textarea id="cf-message" rows="4" placeholder="What would you like to ask or discuss?" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send message →</button>
-        <p class="cf-hint mono">Opens your email app with this pre-filled, addressed to itsvansh247776@gmail.com</p>
-      </form>
-    </div>
-  </section>
 
+        <div class="about-right">
+          <!-- Education Card -->
+          <div class="info-card">
+            <div class="info-card-top">
+              <h4>IIIT Naya Raipur</h4>
+              <span class="cgpa-pill">8.35 CGPA</span>
+            </div>
+            <div class="degree">Bachelor of Technology in Computer Science</div>
+            <div class="timeline-dates">Aug 2023 to June 2027 · Chhattisgarh, India</div>
+          </div>
+
+          <!-- Highlight Points -->
+          <ul class="about-points">
+            <li>
+              <span class="icon">✓</span>
+              <span><strong>Production Hardening:</strong> Executed live Ubuntu 20.04 to 24.04 LTS upgrades across production systems with VM snapshots, dependency migration, and rollback strategies.</span>
+            </li>
+            <li>
+              <span class="icon">✓</span>
+              <span><strong>Incident Recovery:</strong> Diagnosed and resolved 20+ live service outages through kernel log debugging, reverse proxy reconfiguration, and infrastructure analysis.</span>
+            </li>
+            <li>
+              <span class="icon">✓</span>
+              <span><strong>Entrepreneurial Recognition:</strong> Second Runner Up at 23Ventures Entrepreneurship Challenge (100+ teams) and Top 15 Finalist at Shark Tank Chhattisgarh.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         03 / The Track Record (Devnagri at Noida, India)
+         ========================================================================== -->
+    <section class="section wrap" id="experience">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">03 / THE TRACK RECORD</div>
+          <h2>Real systems. Measurable impact.</h2>
+          <p class="subhead">From hands-on infrastructure recovery to automated deployment pipelines.</p>
+        </div>
+        <span class="sec-count mono">1 pipeline · active</span>
+      </div>
+
+      <div class="experience-timeline">
+        <article class="exp-card">
+          <div class="exp-header">
+            <div class="exp-header-left">
+              <h3>DevOps Intern</h3>
+              <div class="company-row">
+                <span class="company">Devnagri</span>
+                <span class="location">· Noida, India</span>
+              </div>
+            </div>
+            <div class="exp-date-pill">
+              <span>APRIL 2026 to AUGUST 2026</span>
+              <span class="badge-recent">PRODUCTION EXPERIENCE</span>
+            </div>
+          </div>
+
+          <div class="exp-summary">
+            Managed Linux-based production and development infrastructure across 30+ virtual machines and services on Google Cloud Platform (GCP), handling application deployments, server administration, troubleshooting, and production service recovery.
+          </div>
+
+          <!-- Impact Metrics Chips -->
+          <div class="exp-impact-strip">
+            <span class="impact-chip"><strong>30+</strong> GCP VMs Managed</span>
+            <span class="impact-chip"><strong>60%</strong> Faster Deployments (10m down to 4m)</span>
+            <span class="impact-chip"><strong>20+</strong> Outages Resolved</span>
+            <span class="impact-chip"><strong>20+</strong> PM2 Migrations</span>
+            <span class="impact-chip"><strong>14+</strong> CI/CD Pipelines Maintained</span>
+          </div>
+
+          <!-- Multi-Stage Pipeline Breakdown -->
+          <div class="exp-stages">
+            <div class="stage-row">
+              <div class="stage-meta">
+                <span class="stage-num">STAGE 01</span>
+                <span class="stage-badge">DEPLOY</span>
+              </div>
+              <p>
+                Administered Linux production and development infrastructure on Google Cloud Platform (Compute Engine, VPC networks, Cloud Storage, and custom firewall rules) supporting multi-service application stacks.
+              </p>
+            </div>
+
+            <div class="stage-row">
+              <div class="stage-meta">
+                <span class="stage-num">STAGE 02</span>
+                <span class="stage-badge">AUTOMATE</span>
+              </div>
+              <p>
+                Designed and implemented CI/CD pipelines using Jenkins and Git for Next.js, Laravel, and Python applications, building 4 new pipelines and maintaining 10+, reducing deployment duration from 10 minutes to 4 minutes.
+              </p>
+            </div>
+
+            <div class="stage-row">
+              <div class="stage-meta">
+                <span class="stage-num">STAGE 03</span>
+                <span class="stage-badge">MIGRATE</span>
+              </div>
+              <p>
+                Standardized process management by migrating 20+ production services from Byobu sessions to PM2, establishing automated process supervision, cluster mode, and zero downtime restart handling.
+              </p>
+            </div>
+
+            <div class="stage-row">
+              <div class="stage-meta">
+                <span class="stage-num">STAGE 04</span>
+                <span class="stage-badge">SECURE</span>
+              </div>
+              <p>
+                Configured and optimized Nginx and Traefik reverse proxies across 5 core services with automated SSL/TLS certificates, firewall filtering, and secure proxy header forwarding.
+              </p>
+            </div>
+
+            <div class="stage-row">
+              <div class="stage-meta">
+                <span class="stage-num">STAGE 05</span>
+                <span class="stage-badge">OBSERVE</span>
+              </div>
+              <p>
+                Implemented infrastructure monitoring with Prometheus, Grafana, Promtail, and Node Exporter. Analyzed GCP resource utilization to identify cost optimization opportunities and diagnose 20+ service outages.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         04 / Selected Work (With Verified Live Demos & Repos)
+         ========================================================================== -->
+    <section class="section wrap" id="projects">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">04 / SELECTED WORK</div>
+          <h2>Production-grade projects.</h2>
+          <p class="subhead">Self-service developer platforms and automated cloud provisioning systems.</p>
+        </div>
+        <span class="sec-count mono">02 shipped</span>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1: AutoDevOps Control -->
+        <article class="project-card tilt-card">
+          <div class="project-top">
+            <span class="project-index">PROJECT / 01</span>
+            <div class="project-links">
+              <a class="project-link-btn" href="https://github.com/vanshgoel123/AutoDevOps-Control" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span> <span aria-hidden="true">↗</span>
+              </a>
+              <a class="project-link-btn" href="https://autodevops.vanshgoel.tech/" target="_blank" rel="noopener noreferrer">
+                <span>Live Demo</span> <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <h3>AutoDevOps Control</h3>
+          <p class="project-desc">
+            A mini PaaS platform that deploys applications using repository metadata and user-provided AWS credentials, simplifying cloud deployments for software teams.
+          </p>
+
+          <ul class="project-features">
+            <li>Designed asynchronous deployment workflows using Celery and Redis for long-running build and provisioning tasks.</li>
+            <li>Automated repository cloning, Docker image builds, infrastructure provisioning, and container deployments.</li>
+            <li>Applied Platform-as-a-Service principles to simplify deployments directly onto users' AWS accounts.</li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="project-tag">FastAPI</span>
+            <span class="project-tag">Docker</span>
+            <span class="project-tag">Celery</span>
+            <span class="project-tag">Redis</span>
+            <span class="project-tag">AWS Cloud</span>
+          </div>
+        </article>
+
+        <!-- Project 2: Cloud IDE Platform -->
+        <article class="project-card tilt-card">
+          <div class="project-top">
+            <span class="project-index">PROJECT / 02</span>
+            <div class="project-links">
+              <a class="project-link-btn" href="https://github.com/vanshgoel123/cloud-ide-platform" target="_blank" rel="noopener noreferrer">
+                <span>Repository</span> <span aria-hidden="true">↗</span>
+              </a>
+              <a class="project-link-btn" href="https://cloudid.vanshgoel.tech/" target="_blank" rel="noopener noreferrer">
+                <span>Live Demo</span> <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <h3>Cloud IDE Platform</h3>
+          <p class="project-desc">
+            Isolated, on-demand Docker-based VS Code development workspaces that eliminate developer dependency conflicts and streamline onboarding.
+          </p>
+
+          <ul class="project-features">
+            <li>Automated workspace creation, startup, shutdown, and deletion using a FastAPI backend to eliminate manual environment setup.</li>
+            <li>Optimized cloud resource usage using Docker CPU/memory limits and automated idle workspace cleanup routines.</li>
+            <li>Prevented accidental developer data loss by implementing soft-delete and controlled purge workflows.</li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="project-tag">Docker</span>
+            <span class="project-tag">FastAPI</span>
+            <span class="project-tag">GitHub Actions</span>
+            <span class="project-tag">Docker Compose</span>
+            <span class="project-tag">Nginx</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         05 / Credentials & Accreditations (With Direct Verification Links)
+         ========================================================================== -->
+    <section class="section wrap" id="credentials">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">05 / CREDENTIALS &amp; RECOGNITION</div>
+          <h2>Verified credentials &amp; achievements.</h2>
+          <p class="subhead">Click on any certificate to view the verified credential record.</p>
+        </div>
+        <span class="sec-count mono">4 verified</span>
+      </div>
+
+      <div class="credentials-grid">
+        <!-- Credential 1: Decoding DevOps with AI -->
+        <article class="cred-card tilt-card">
+          <div class="cred-card-top">
+            <div class="cred-badge-visual">DV</div>
+            <div class="cred-info">
+              <small>UDEMY VERIFIED CREDENTIAL</small>
+              <h4>Decoding DevOps: Basics to Advanced Projects with AI</h4>
+              <p>Comprehensive 64-hour hands-on training covering CI/CD pipelines, Docker containerization, Jenkins automation, and cloud automation.</p>
+            </div>
+          </div>
+          <a class="cred-link-btn" href="https://drive.google.com/file/d/10thRu2Sg-3Be9ZGWQLuvOOwfaXhVg0DE/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            View Certificate ↗
+          </a>
+        </article>
+
+        <!-- Credential 2: GitHub Actions -->
+        <article class="cred-card tilt-card">
+          <div class="cred-card-top">
+            <div class="cred-badge-visual">GA</div>
+            <div class="cred-info">
+              <small>UDEMY VERIFIED CREDENTIAL</small>
+              <h4>GitHub Actions: The Complete Guide</h4>
+              <p>Focused training on designing, securing, and automating real-world CI/CD workflows using GitHub Actions.</p>
+            </div>
+          </div>
+          <a class="cred-link-btn" href="https://drive.google.com/file/d/1BxjeMmm4eY10rmU4HPqYz4yjc0YMkhxT/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            View Certificate ↗
+          </a>
+        </article>
+
+        <!-- Credential 3: 23Ventures Entrepreneurship Challenge -->
+        <article class="cred-card tilt-card">
+          <div class="cred-card-top">
+            <div class="cred-badge-visual orange">23V</div>
+            <div class="cred-info">
+              <small>23VENTURES · 2025</small>
+              <h4>Second Runner Up: 23Ventures Entrepreneurship Challenge 2025</h4>
+              <p>Ranked among 100+ competing engineering teams for architecting and pitching a scalable tech startup platform.</p>
+            </div>
+          </div>
+          <a class="cred-link-btn" href="https://drive.google.com/file/d/1fEKgFUK72xWOg7eU3C3WlVvo1Yv9kXwb/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            View Certificate ↗
+          </a>
+        </article>
+
+        <!-- Credential 4: Shark Tank Chhattisgarh -->
+        <article class="cred-card tilt-card">
+          <div class="cred-card-top">
+            <div class="cred-badge-visual orange">ST</div>
+            <div class="cred-info">
+              <small>YOUNG INDIAN HUB · 2025</small>
+              <h4>Top 15 Finalist: Shark Tank Chhattisgarh</h4>
+              <p>Selected for pitching an innovative project to angel investors and entrepreneurs at the Young Indian Hub summit.</p>
+            </div>
+          </div>
+          <span class="cred-link-btn" style="cursor:default;">
+            Top 15 Finalist Award
+          </span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         06 / Redesigned AI Assistant (Modern Hybrid Chat Console)
+         ========================================================================== -->
+    <section class="section wrap" id="assistant">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">06 / INTERACTIVE AI ASSISTANT</div>
+          <h2>Ask my AI about me.</h2>
+          <p class="subhead">
+            Have questions about my DevOps experience at Devnagri, cloud stack on GCP/AWS, projects, or role availability? Ask the assistant below!
+          </p>
+        </div>
+        <span class="sec-count mono">v2.5 bot online</span>
+      </div>
+
+      <div class="assistant-wrapper">
+        <!-- AI Header Bar -->
+        <div class="ai-header-bar">
+          <div class="ai-header-left">
+            <div class="ai-avatar">VG</div>
+            <div>
+              <div style="font-family:var(--font-display); font-weight:700; font-size:15px; color:var(--text)">
+                Vansh's DevOps AI
+              </div>
+              <div style="font-family:var(--font-mono); font-size:11px; color:var(--muted)">
+                Trained on verified resume &amp; production history
+              </div>
+            </div>
+          </div>
+          <div class="ai-status-pill">
+            <span class="status-dot"></span> LIVE ASSISTANT
+          </div>
+        </div>
+
+        <!-- Chat Feed -->
+        <div class="ai-feed" id="ai-feed">
+          <!-- Starter Welcome Message with Command Guide -->
+          <div class="ai-welcome-banner">
+            <div class="icon">⚡</div>
+            <div>
+              <h4>Welcome to Vansh's Interactive Digital Twin</h4>
+              <p style="margin-bottom:8px;">
+                Ask me anything about my cloud experience, production work at Devnagri in Noida, or why I chose DevOps.
+              </p>
+              <div style="font-family:var(--font-mono); font-size:12px; color:var(--muted); display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+                <span>Quick commands:</span>
+                <span class="cmd-pill" data-cmd="help">help</span>
+                <span class="cmd-pill" data-cmd="story">story</span>
+                <span class="cmd-pill" data-cmd="devnagri">devnagri</span>
+                <span class="cmd-pill" data-cmd="projects">projects</span>
+                <span class="cmd-pill" data-cmd="sudo hire vansh">sudo hire vansh</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suggested Prompt Chips -->
+        <div class="ai-chips-bar">
+          <button class="ai-chip" data-q="help" style="border-color:rgba(var(--accent-rgb),0.5); font-weight:600; color:var(--accent);">
+            ⌨️ help / commands
+          </button>
+          <button class="ai-chip" data-q="Why did Vansh choose DevOps?">
+            💡 Why DevOps?
+          </button>
+          <button class="ai-chip" data-q="What is Vansh's DevOps experience at Devnagri?">
+            💼 Devnagri Experience
+          </button>
+          <button class="ai-chip" data-q="What projects has Vansh built?">
+            🚀 Featured Projects
+          </button>
+          <button class="ai-chip" data-q="What is Vansh's technical stack?">
+            🛠️ Tech Stack
+          </button>
+          <button class="ai-chip" data-q="Is Vansh available for hire or internships?">
+            🎯 Hiring Availability
+          </button>
+          <button class="ai-chip" data-q="How can I contact Vansh?">
+            📬 Contact Info
+          </button>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="ai-input-bar">
+          <input type="text" id="ai-input" placeholder="Ask a question about Vansh's experience, stack, or projects…" autocomplete="off">
+          <button class="ai-send-btn" id="ai-send">Send ↵</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         07 / Get In Touch (Contact Section)
+         ========================================================================== -->
+    <section class="section wrap contact-section" id="contact">
+      <div class="contact-card">
+        <!-- Left: Quick Links & Contact Methods -->
+        <div class="contact-left">
+          <div class="eyebrow">
+            <span class="status-dot"></span> LET’S BUILD SOMETHING RELIABLE
+          </div>
+          <h2>Your next challenge.<br>Let’s build it together.</h2>
+          <p class="pitch">
+            Whether you are looking for a dedicated DevOps Engineer for your engineering team, have an internship opportunity, or need help architecting cloud infrastructure, my inbox is always open.
+          </p>
+
+          <div class="contact-options-list">
+            <!-- Email -->
+            <a class="contact-option-item" href="mailto:itsvansh247776@gmail.com">
+              <div class="contact-option-left">
+                <div class="contact-opt-icon">@</div>
+                <div class="contact-opt-text">
+                  <strong>Email me directly</strong>
+                  <span>itsvansh247776@gmail.com</span>
+                </div>
+              </div>
+              <span class="arrow-icon" aria-hidden="true">↗</span>
+            </a>
+
+            <!-- WhatsApp / Phone -->
+            <a class="contact-option-item" href="https://wa.me/918445916990" target="_blank" rel="noopener noreferrer">
+              <div class="contact-option-left">
+                <div class="contact-opt-icon">💬</div>
+                <div class="contact-opt-text">
+                  <strong>Chat on WhatsApp / Call</strong>
+                  <span>+91 8445916990</span>
+                </div>
+              </div>
+              <span class="arrow-icon" aria-hidden="true">↗</span>
+            </a>
+
+            <!-- LinkedIn -->
+            <a class="contact-option-item" href="https://www.linkedin.com/in/vansh-goel-0756ab27a/" target="_blank" rel="noopener noreferrer">
+              <div class="contact-option-left">
+                <div class="contact-opt-icon">in</div>
+                <div class="contact-opt-text">
+                  <strong>Connect on LinkedIn</strong>
+                  <span>linkedin.com/in/vansh-goel-0756ab27a</span>
+                </div>
+              </div>
+              <span class="arrow-icon" aria-hidden="true">↗</span>
+            </a>
+
+            <!-- GitHub -->
+            <a class="contact-option-item" href="https://github.com/vanshgoel123" target="_blank" rel="noopener noreferrer">
+              <div class="contact-option-left">
+                <div class="contact-opt-icon">gh</div>
+                <div class="contact-opt-text">
+                  <strong>Explore my GitHub</strong>
+                  <span>github.com/vanshgoel123</span>
+                </div>
+              </div>
+              <span class="arrow-icon" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Direct Message Draft Form -->
+        <div class="contact-right">
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <label for="cf-name">Your Name</label>
+              <input type="text" id="cf-name" placeholder="Alex Rivers" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cf-email">Your Email</label>
+              <input type="email" id="cf-email" placeholder="alex@company.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cf-message">Your Message</label>
+              <textarea id="cf-message" rows="5" placeholder="Hi Vansh, we'd like to discuss a DevOps role / internship opportunity..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn primary" style="width:100%; justify-content:center;">
+              Send Message <span aria-hidden="true">→</span>
+            </button>
+            <div class="form-hint">
+              Generates a pre-filled direct email draft to itsvansh247776@gmail.com
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Interactive Visitor Reactions Widget
+         ========================================================================== -->
+    <section class="reactions-section wrap">
+      <div class="reactions-inner">
+        <div class="reactions-title">
+          <span class="pulse-icon">❤️</span> Enjoying my portfolio? Leave a quick reaction:
+        </div>
+        <div class="reactions-buttons">
+          <button class="reaction-btn" data-reaction="rock" title="React with Super Scalable">
+            <span>🚀</span> <span>Super Scalable</span> <span class="count">48</span>
+          </button>
+          <button class="reaction-btn" data-reaction="fire" title="React with Killer Stack">
+            <span>🔥</span> <span>Killer Stack</span> <span class="count">62</span>
+          </button>
+          <button class="reaction-btn" data-reaction="heart" title="React with Loved the AI">
+            <span>💡</span> <span>Loved the AI</span> <span class="count">75</span>
+          </button>
+          <button class="reaction-btn" data-reaction="hire" title="React with Top Candidate">
+            <span>🎯</span> <span>Top Candidate</span> <span class="count">89</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       Footer
+       ========================================================================== -->
   <footer>
-    <p>© 2026 Vansh Goel — built with HTML, CSS, JS and ❤</p>
+    <div class="wrap footer-inner">
+      <div class="brand">
+        <div class="brand-signature" style="width:36px; height:36px;">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 18,28 Q 24,56 38,72 Q 44,52 52,24" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/>
+            <path d="M 78,32 Q 56,22 46,44 Q 38,62 52,74 Q 68,82 78,64 L 78,52 L 62,52" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="84" cy="24" r="5" fill="var(--accent)"/>
+          </svg>
+        </div>
+        <div class="brand-name">
+          <span style="font-weight:700;">vansh.goel</span>
+        </div>
+      </div>
+
+      <div class="footer-copy">
+        © <span id="current-year">2026</span> Vansh Goel. Engineered for reliability and scale.
+      </div>
+
+      <a class="back-to-top" href="#home">
+        Back to top ↑
+      </a>
+    </div>
   </footer>
-</div>
 
-<script>
-  // mobile nav toggle
-  const navtoggle = document.getElementById('navtoggle');
-  const navlinks = document.getElementById('navlinks');
-  navtoggle.addEventListener('click', () => {
-    const open = navlinks.style.display === 'flex';
-    navlinks.style.display = open ? 'none' : 'flex';
-    navlinks.style.cssText += 'position:fixed; top:60px; left:0; right:0; background:#0a0e13; flex-direction:column; padding:20px 28px; border-bottom:1px solid #202a35; gap:18px;';
-  });
+  <!-- Floating Quick AI Button -->
+  <a class="floating-ai-trigger" href="#assistant" aria-label="Open AI Assistant Chat">
+    <span class="bot-dot"></span> Ask Vansh's AI 💬
+  </a>
 
-  // typed subtitle
-  const lines = [
-    "provisioning infra on gcp & aws...",
-    "shipping ci/cd pipelines with jenkins...",
-    "watching dashboards in grafana...",
-    "keeping production up."
-  ];
-  const typedEl = document.getElementById('typedline');
-  let li = 0, ci = 0, deleting = false;
-  function typeLoop(){
-    const current = lines[li];
-    if(!deleting){
-      ci++;
-      if(ci > current.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
-    } else {
-      ci--;
-      if(ci < 0){ deleting = false; li = (li+1) % lines.length; ci = 0; }
-    }
-    typedEl.innerHTML = current.slice(0, ci) + '<span class="cursor"></span>';
-    setTimeout(typeLoop, deleting ? 28 : 46);
-  }
-  typeLoop();
-
-  // ------- AI assistant (self-contained, no backend required — works on GitHub Pages) -------
-  // Knowledge base pulled straight from Vansh's résumé. Matched by keyword so it
-  // always gives a real, on-topic answer without needing a server or API key.
-  const KB = [
-    {
-      kw: ['hi','hello','hey','yo','sup'],
-      a: "Hey! I'm Vansh's AI assistant. Ask me about his experience, projects, skills, education, or how to reach him."
-    },
-    {
-      kw: ['contact','email','reach','phone','number','connect','get in touch','linkedin','talk to vansh'],
-      a: "You can reach Vansh directly:\n  ✉ itsvansh247776@gmail.com\n  in linkedin.com/in/vansh-goel-0756ab27a\n  gh github.com/vanshgoel123\n\nOr just use the contact form right below this chat — drop your name, email, and question, and it'll open a message ready to send to him."
-    },
-    {
-      kw: ['hire','available','opportunity','opening','internship role','job','looking for work','open to work','freelance'],
-      a: "Vansh is a B.Tech CS student at IIIT Naya Raipur (graduating June 2027), currently interning as a DevOps Intern at Devnagri (Apr–Jul 2026). He's open to DevOps/infrastructure internships, full-time roles, and interesting collaborations. Best way to start a conversation: itsvansh247776@gmail.com or the contact form below."
-    },
-    {
-      kw: ['experience','devnagri','internship','intern','work history','job history'],
-      a: "Vansh is currently a DevOps Intern at Devnagri (Apr 2026 – Jul 2026), where he:\n• Manages Linux production/dev infra on GCP\n• Built CI/CD pipelines with Jenkins for Next.js, Laravel & Python apps\n• Led production Ubuntu 20.04→24.04 LTS upgrades with rollback strategies\n• Configured Nginx/Traefik, SSL, and firewall rules\n• Set up monitoring with Prometheus, Grafana, Promtail & Node Exporter"
-    },
-    {
-      kw: ['project','built','build','autodevops','cloud ide','portfolio project','github repo'],
-      a: "Two projects worth checking out:\n\n1. AutoDevOps Control — a mini PaaS that deploys apps using repo metadata + user AWS credentials, with async build/provisioning via Celery & Redis.\n\n2. Cloud IDE Platform — spins up isolated, on-demand Docker-based VS Code workspaces via a FastAPI backend, with resource limits and safe cleanup.\n\nLinks are up in the Work section above."
-    },
-    {
-      kw: ['skill','tech stack','stack','language','tools','technology','know','proficient'],
-      a: "Vansh's stack:\n• Languages: C/C++, Python, Go, Java, JavaScript, Bash\n• Cloud: AWS (EC2, S3, IAM, VPC), GCP (Compute Engine, IAM, VPC, Cloud Storage)\n• Containers: Docker, Docker Compose\n• CI/CD & IaC: Jenkins, GitHub Actions, Terraform, Ansible\n• Monitoring: Prometheus, Grafana, Promtail, Node Exporter\n• Other: Linux, Git, Nginx, Traefik, PM2"
-    },
-    {
-      kw: ['education','college','degree','cgpa','university','iiit','study','studying','gpa'],
-      a: "Vansh is pursuing a B.Tech in Computer Science at IIIT Naya Raipur (Aug 2023 – June 2027), currently holding a CGPA of 8.35/10.00."
-    },
-    {
-      kw: ['certification','certificate','course','udemy','learn'],
-      a: "Vansh has completed:\n• Decoding DevOps – Basics to Advanced Projects with AI (Udemy, 64 hrs) — CI/CD, Docker, Jenkins, cloud automation\n• GitHub Actions – The Complete Guide (Udemy) — CI/CD workflow automation"
-    },
-    {
-      kw: ['achievement','competition','hackathon','shark tank','ventures','award','win','won'],
-      a: "A couple of highlights outside pure engineering:\n• 2nd Runner-up, 23Ventures Entrepreneurship Challenge 2025 (100+ teams)\n• Top 15 Finalist, Shark Tank Chhattisgarh – Young Indian Hub 2025"
-    },
-    {
-      kw: ['who is vansh','about vansh','tell me about','summary','who are you'],
-      a: "Vansh Goel is a DevOps Engineer and CS undergrad at IIIT Naya Raipur, focused on Linux administration, cloud infrastructure (GCP/AWS), CI/CD automation, and observability. Currently interning at Devnagri, building deployment pipelines and monitoring production systems."
-    }
-  ];
-
-  const FALLBACK = "I don't have a specific answer for that in Vansh's résumé — but here's the short version: he's a DevOps Engineer & CS undergrad at IIIT Naya Raipur, currently interning at Devnagri, working across Linux, GCP/AWS, Docker, Jenkins, and monitoring tools. For anything else, drop your question in the contact form below and he'll get back to you directly.";
-
-  function getAnswer(question){
-    const q = question.toLowerCase();
-    for(const entry of KB){
-      if(entry.kw.some(k => q.includes(k))) return entry.a;
-    }
-    return FALLBACK;
-  }
-
-  const chatlog = document.getElementById('chatlog');
-  const chatinput = document.getElementById('chatinput');
-  const sendbtn = document.getElementById('sendbtn');
-  let busy = false;
-
-  function addLine(text, cls){
-    const div = document.createElement('div');
-    div.className = 'line ' + cls;
-    div.textContent = text;
-    chatlog.appendChild(div);
-    chatlog.scrollTop = chatlog.scrollHeight;
-    return div;
-  }
-
-  function addTyping(){
-    const div = document.createElement('div');
-    div.className = 'line bot';
-    div.innerHTML = '<span class="typing"><span></span><span></span><span></span></span>';
-    chatlog.appendChild(div);
-    chatlog.scrollTop = chatlog.scrollHeight;
-    return div;
-  }
-
-  function askAI(question){
-    if(busy) return;
-    busy = true;
-    addLine(question, 'user');
-    chatinput.value = '';
-    const typingEl = addTyping();
-
-    const reply = getAnswer(question);
-    const delay = 500 + Math.random() * 500;
-    setTimeout(() => {
-      typingEl.remove();
-      addLine(reply, 'bot');
-      busy = false;
-    }, delay);
-  }
-
-  sendbtn.addEventListener('click', () => {
-    const q = chatinput.value.trim();
-    if(q) askAI(q);
-  });
-  chatinput.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter'){
-      const q = chatinput.value.trim();
-      if(q) askAI(q);
-    }
-  });
-  document.querySelectorAll('.suggest-chip').forEach(chip => {
-    chip.addEventListener('click', () => askAI(chip.dataset.q));
-  });
-
-  // ------- Contact form → opens a pre-filled email to Vansh (no backend needed) -------
-  const contactForm = document.getElementById('contactform');
-  if(contactForm){
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('cf-name').value.trim();
-      const email = document.getElementById('cf-email').value.trim();
-      const msg = document.getElementById('cf-message').value.trim();
-      const subject = encodeURIComponent(`Portfolio inquiry from ${name || 'a visitor'}`);
-      const body = encodeURIComponent(`${msg}\n\n— ${name} (${email})`);
-      window.location.href = `mailto:itsvansh247776@gmail.com?subject=${subject}&body=${body}`;
-    });
-  }
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>

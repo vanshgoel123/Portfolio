@@ -1,6 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="24" fill="#0b0f14"/>
-  <path d="M 18,28 Q 24,56 38,72 Q 44,52 52,24" stroke="#b5ed82" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M 78,32 Q 56,22 46,44 Q 38,62 52,74 Q 68,82 78,64 L 78,52 L 62,52" stroke="#b5ed82" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="84" cy="24" r="6" fill="#b5ed82"/>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --border: #222d3c;
+      --accent: #b5ed82;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --border: #cbd5e1;
+        --accent: #16a34a;
+      }
+    }
+    .bg {
+      fill: var(--bg);
+      stroke: var(--border);
+      stroke-width: 2px;
+    }
+    .stroke {
+      stroke: var(--accent);
+    }
+    .dot {
+      fill: var(--accent);
+    }
+  </style>
+  <rect class="bg" width="98" height="98" x="1" y="1" rx="24"/>
+  <path class="stroke" d="M 18,28 Q 24,56 38,72 Q 44,52 52,24" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 78,32 Q 56,22 46,44 Q 38,62 52,74 Q 68,82 78,64 L 78,52 L 62,52" class="stroke" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle class="dot" cx="84" cy="24" r="6"/>
 </svg>

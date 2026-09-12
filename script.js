@@ -54,12 +54,20 @@ function initThemeAndPalette() {
   const storedAccent = localStorage.getItem('vg_accent') || 'emerald';
   document.documentElement.setAttribute('data-accent', storedAccent);
   updateActivePaletteBtn(storedAccent);
+  updateFavicon(currentTheme);
+
+  function updateFavicon(theme) {
+    const faviconTag = document.querySelector('link[rel="icon"]');
+    if (!faviconTag) return;
+    faviconTag.href = theme === 'light' ? 'favicon-light.svg' : 'favicon.svg';
+  }
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
       currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', currentTheme);
       localStorage.setItem('vg_theme', currentTheme);
+      updateFavicon(currentTheme);
     });
   }
 

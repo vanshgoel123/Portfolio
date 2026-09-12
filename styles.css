@@ -279,6 +279,17 @@ header {
   box-shadow: 0 0 20px var(--accent-glow);
 }
 
+[data-theme="light"] .brand-signature {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .brand:hover .brand-signature {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08), 0 0 16px var(--accent-glow);
+}
+
 .brand-signature svg {
   width: 38px;
   height: 38px;
